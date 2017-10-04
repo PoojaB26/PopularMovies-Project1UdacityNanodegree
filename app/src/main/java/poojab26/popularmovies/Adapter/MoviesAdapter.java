@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,6 +40,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         this.mInflater = LayoutInflater.from(context);
         this.movies = movies;
         this.rowLayout = rowLayout;
+        this.context = context;
     }
 
     // inflates the cell layout from xml when needed
@@ -51,7 +55,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         String title = movies.get(position).getTitle();
         holder.tvMovieName.setText(title);
-
+        Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(holder.imgPoster);
     }
 
 
@@ -64,6 +68,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvMovieName;
+        ImageView imgPoster;
         private final Context context;
 
         ViewHolder(View itemView) {
@@ -71,6 +76,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             context = itemView.getContext();
 
             tvMovieName = (TextView) itemView.findViewById(R.id.tv_moviename);
+            imgPoster = (ImageView) itemView.findViewById(R.id.imgPoster);
 
             itemView.setOnClickListener(this);
         }
