@@ -51,6 +51,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         String title = movies.get(position).getTitle();
         holder.tvMovieName.setText(title);
+
     }
 
 
@@ -70,6 +71,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             context = itemView.getContext();
 
             tvMovieName = (TextView) itemView.findViewById(R.id.tv_moviename);
+
             itemView.setOnClickListener(this);
         }
 
@@ -79,8 +81,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             Log.d(TAG, String.valueOf(getAdapterPosition()));
             final Intent intent;
             intent =  new Intent(context, DetailsActivity.class);
-          //  intent.putExtra("movieTitle", movies.get(getAdapterPosition()).getTitle());
-            intent.putExtra("movieID", movies.get(getAdapterPosition()).getId());
             intent.putExtra("pos", getAdapterPosition());
             context.startActivity(intent);
         }

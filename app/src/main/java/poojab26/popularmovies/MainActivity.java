@@ -44,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
 
-                List<Movie> popularMovieLists = response.body().getMovies();
-                Log.d("TAG", popularMovieLists.get(0).getOriginalLanguage());
+                List<Movie> movies = response.body().getMovies();
+                Log.d("TAG", movies.get(0).getOriginalLanguage());
 
-                recyclerView.setAdapter(new MoviesAdapter(popularMovieLists, R.layout.movie_recycler_view_item, MainActivity.this));
+                recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.movie_recycler_view_item, MainActivity.this));
 
             }
 

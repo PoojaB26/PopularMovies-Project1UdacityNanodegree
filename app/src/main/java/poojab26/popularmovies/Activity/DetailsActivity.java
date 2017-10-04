@@ -18,26 +18,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
-    TextView tvText;
+    TextView tvMovieTitle, tvSynopsis, tvRating, tvRelease;
     ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        tvText = (TextView)findViewById(R.id.textDetails);
+        tvMovieTitle = (TextView)findViewById(R.id.tvOrigTitle);
+        tvSynopsis = (TextView)findViewById(R.id.tvSynopsis);
+        tvRating = (TextView)findViewById(R.id.tvRating);
+        tvRelease = (TextView)findViewById(R.id.tvRelease);
 
         Intent movieIntent = getIntent();
-        int movieID = movieIntent.getIntExtra("movieID", 0);
         int pos = movieIntent.getIntExtra("pos", 0);
-
-        tvText.setText(String.valueOf(movieID));
-
-        loadMoviesListJSON(movieID, pos);
+        loadMoviesListJSON(pos);
     }
 
 
-    private void loadMoviesListJSON(final int movieID, final int pos) {
+    private void loadMoviesListJSON(final int pos) {
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
         Call<PopularMoviesList> call = apiInterface.getPopularMovies("f4695866012a87780251b61af89bb5ac");
@@ -45,12 +44,13 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
 
-                List<Movie> popularMovyLists = response.body().getMovies();
-                Log.d("TAG1", popularMovyLists.get(0).getOriginalLanguage());
+                List<Movie> movies = response.body().getMovies();
 
-                if (popularMovyLists.get(pos).getId()==movieID){
-                    Log.d("TAG2", popularMovyLists.get(pos).getOriginalTitle());
-                }
+                tvMovieTitle.setText(movies.get(pos).getOriginalTitle());
+                tvSynopsis.setText(movies.get(pos).getOverview());
+                tvRating.setText(String.valueOf(movies.get(pos).getVoteAverage()));
+                tvRelease.setText(movies.get(pos).getReleaseDate());
+
 
             }
 
