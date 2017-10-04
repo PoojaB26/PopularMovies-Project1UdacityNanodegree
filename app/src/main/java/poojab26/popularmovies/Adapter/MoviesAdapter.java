@@ -70,21 +70,13 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
             Log.d(TAG, String.valueOf(getAdapterPosition()));
-            int pos = getAdapterPosition();
             final Intent intent;
-            switch (pos){
-                case 0:
-                    intent =  new Intent(context, DetailsActivity.class);
-                    break;
-
-                default:
-                    intent =  new Intent(context, DetailsActivity.class);
-                    break;
-            }
+            intent =  new Intent(context, DetailsActivity.class);
+            intent.putExtra("message", String.valueOf(getAdapterPosition()));
             context.startActivity(intent);
         }
     }
-
+/*
     // convenience method for getting data at click position
    public String getItem(int id) {
         return mData[id];
@@ -93,7 +85,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     // allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
-    }
+    }*/
 
 
     public interface ItemClickListener{
