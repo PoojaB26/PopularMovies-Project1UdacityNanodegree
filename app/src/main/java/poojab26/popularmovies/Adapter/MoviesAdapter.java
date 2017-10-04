@@ -9,7 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import poojab26.popularmovies.Activity.DetailsActivity;
+import poojab26.popularmovies.Model.Movie;
 import poojab26.popularmovies.R;
 
 import static android.content.ContentValues.TAG;
@@ -20,49 +23,53 @@ import static android.content.ContentValues.TAG;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
-
-    private String[] mData = new String[0];
-    private LayoutInflater mInflater;
+    private List<Movie> movies;
+    private int rowLayout;
+    private Context context;
     private ItemClickListener mClickListener;
+
+    private LayoutInflater mInflater;
+
 
 
     // data is passed into the constructor
-   public MoviesAdapter(Context context, String[] data) {
+   public MoviesAdapter(List<Movie> movies, int rowLayout, Context context) {
         this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+        this.movies = movies;
+        this.rowLayout = rowLayout;
     }
 
     // inflates the cell layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = mInflater.inflate(R.layout.recycler_view_item, parent, false);
+        View view = mInflater.inflate(R.layout.movie_recycler_view_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData[position];
-        holder.myTextView.setText(animal);
+        String title = movies.get(position).getTitle();
+        holder.tvMovieName.setText(title);
     }
 
 
     // total number of cells
     @Override
     public int getItemCount() {
-        return mData.length;
+        return movies.size();
     }
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+        TextView tvMovieName;
         private final Context context;
 
         ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
 
-            myTextView = (TextView) itemView.findViewById(R.id.info_text);
+            tvMovieName = (TextView) itemView.findViewById(R.id.tv_moviename);
             itemView.setOnClickListener(this);
         }
 
@@ -72,7 +79,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             Log.d(TAG, String.valueOf(getAdapterPosition()));
             final Intent intent;
             intent =  new Intent(context, DetailsActivity.class);
-            intent.putExtra("message", String.valueOf(getAdapterPosition()));
+          //  intent.putExtra("movieTitle", movies.get(getAdapterPosition()).getTitle());
+            intent.putExtra("movieID", movies.get(getAdapterPosition()).getId());
+            intent.putExtra("pos", getAdapterPosition());
             context.startActivity(intent);
         }
     }

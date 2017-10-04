@@ -9,9 +9,9 @@ import android.widget.TextView;
 import java.util.List;
 
 import poojab26.popularmovies.Model.PopularMoviesList;
-import poojab26.popularmovies.Model.PopularMovie;
+import poojab26.popularmovies.Model.Movie;
 import poojab26.popularmovies.R;
-import poojab26.popularmovies.RequestInterface;
+import poojab26.popularmovies.ApiInterface;
 import poojab26.popularmovies.Utilities.APIClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +19,7 @@ import retrofit2.Response;
 
 public class DetailsActivity extends AppCompatActivity {
     TextView tvText;
-    RequestInterface apiInterface;
+    ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,43 +28,29 @@ public class DetailsActivity extends AppCompatActivity {
         tvText = (TextView)findViewById(R.id.textDetails);
 
         Intent movieIntent = getIntent();
-        String movieText = movieIntent.getStringExtra("message");
+        int movieID = movieIntent.getIntExtra("movieID", 0);
+        int pos = movieIntent.getIntExtra("pos", 0);
 
+        tvText.setText(String.valueOf(movieID));
 
-        loadMoviesListJSON();
+        loadMoviesListJSON(movieID, pos);
     }
 
 
-    private void loadMoviesListJSON() {
-        apiInterface = APIClient.getClient().create(RequestInterface.class);
+    private void loadMoviesListJSON(final int movieID, final int pos) {
+        apiInterface = APIClient.getClient().create(ApiInterface.class);
 
         Call<PopularMoviesList> call = apiInterface.getPopularMovies("f4695866012a87780251b61af89bb5ac");
         call.enqueue(new Callback<PopularMoviesList>() {
             @Override
             public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
 
-                List<PopularMovie> popularMovyLists = response.body().getPopularMovies();
-                Log.d("TAG", popularMovyLists.get(0).getOriginalLanguage());
-               /* restaurantList = response.body();
+                List<Movie> popularMovyLists = response.body().getMovies();
+                Log.d("TAG1", popularMovyLists.get(0).getOriginalLanguage());
 
-                Log.d("success", "done");
-
-                Log.d("popul",restaurantList.getNearbyRestaurants().get(0).getRestaurant().getId());
-                restaurantIDList = new ArrayList<String>();
-                for(int i=0; i<5; i++) {
-                    restaurantIDList.add(restaurantList.getNearbyRestaurants().get(i).getRestaurant().getId());
-
-                    R_Details restModel = new R_Details(restaurantList.getNearbyRestaurants().get(i).getRestaurant().getName(),
-                            restaurantList.getNearbyRestaurants().get(i).getRestaurant().getFeaturedImage(),
-                            restaurantList.getNearbyRestaurants().get(i).getRestaurant().getCuisines());
-                    R_List.add(restModel);
-
-                    mAdapter.notifyDataSetChanged();
-                    Log.d("done", "done");
+                if (popularMovyLists.get(pos).getId()==movieID){
+                    Log.d("TAG2", popularMovyLists.get(pos).getOriginalTitle());
                 }
-
-                System.out.println(Arrays.toString(restaurantIDList.toArray()));
-                // prepareData();*/
 
             }
 

@@ -9,7 +9,7 @@ import retrofit2.http.Query;
  * Created by pblead26 on 04-Oct-17.
  */
 
-public interface RequestInterface {
+public interface ApiInterface {
 /*
 
     @Headers("user_key: c031832bac8def9a5efadcb27718dfeb")
