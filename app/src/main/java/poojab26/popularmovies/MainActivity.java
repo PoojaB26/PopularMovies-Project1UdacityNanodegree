@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     ApiInterface apiInterface;
     RecyclerView recyclerView;
     ProgressBar sortProgress;
+    int SpinnerPosition;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +64,16 @@ public class MainActivity extends AppCompatActivity {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                if(parent.getSelectedItemPosition()==0) {
+                Log.d("TAG", "now it is " + SpinnerPosition);
+                SpinnerPosition = parent.getSelectedItemPosition();
+                Log.d("TAG", "now it is 2 " + SpinnerPosition);
+
+                if(SpinnerPosition==0) {
                     sortProgress.setVisibility(View.VISIBLE);
                     loadPopularMoviesList();
                 }
 
-                else if (parent.getSelectedItemPosition()==1) {
+                else if (SpinnerPosition==1) {
                     sortProgress.setVisibility(View.VISIBLE);
                     loadTopRatedMoviesList();
                 }
@@ -134,6 +141,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putInt("pos", SpinnerPosition);
+        Log.d("TAG", SpinnerPosition + " is this 1");
 
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        SpinnerPosition = savedInstanceState.getInt("pos");
+        Log.d("TAG", SpinnerPosition + "is this");
+
+    }
 
 }
