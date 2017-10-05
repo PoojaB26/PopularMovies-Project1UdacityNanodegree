@@ -39,7 +39,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void loadMoviesListJSON(final int pos) {
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
-        Call<PopularMoviesList> call = apiInterface.getPopularMovies("f4695866012a87780251b61af89bb5ac");
+        Call<PopularMoviesList> call = apiInterface.getPopularMovies(getString(R.string.API_KEY));
         call.enqueue(new Callback<PopularMoviesList>() {
             @Override
             public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
