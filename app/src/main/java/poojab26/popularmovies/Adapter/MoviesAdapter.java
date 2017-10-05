@@ -33,6 +33,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     private LayoutInflater mInflater;
 
+    String BASE_PATH = "http://image.tmdb.org/t/p/w185/";
+
 
 
     // data is passed into the constructor
@@ -55,7 +57,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         String title = movies.get(position).getTitle();
         holder.tvMovieName.setText(title);
-        Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(holder.imgPoster);
+        String ImagePath = movies.get(position).getPosterPath();
+        Picasso.with(context).load(BASE_PATH+ImagePath).into(holder.imgPoster);
     }
 
 

@@ -57,6 +57,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PopularMoviesList> call, Throwable t) {
                 Log.d("Error", t.getMessage());
+                tvMovieTitle.setText("NO INTERNET");
             }
         });
     }

@@ -21,4 +21,7 @@ public interface ApiInterface {
     @GET("movie/popular")
     Call<PopularMoviesList> getPopularMovies(@Query("api_key") String apiKey);
 
+    @GET("movie/top_rated")
+    Call<PopularMoviesList> getTopRatedMovies(@Query("api_key") String apiKey);
+
 }
