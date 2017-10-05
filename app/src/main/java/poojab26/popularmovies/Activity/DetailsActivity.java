@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,6 +57,7 @@ public class DetailsActivity extends AppCompatActivity {
 
                 tvMovieTitle.setText(movies.get(pos).getOriginalTitle());
                 tvSynopsis.setText(movies.get(pos).getOverview());
+                tvRating.setVisibility(View.VISIBLE);
                 tvRating.setText(String.valueOf(movies.get(pos).getVoteAverage()));
                 tvRelease.setText("Release Date : " +movies.get(pos).getReleaseDate());
 

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import java.util.List;
@@ -26,14 +27,14 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     MoviesAdapter adapter;
-    final String API_KEY = "f4695866012a87780251b61af89bb5ac";
     ApiInterface apiInterface;
     RecyclerView recyclerView;
+    ProgressBar sortProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        sortProgress = (ProgressBar)findViewById(R.id.sortProgress);
 
 
          recyclerView = (RecyclerView) findViewById(R.id.rvMovies);
@@ -60,14 +61,13 @@ public class MainActivity extends AppCompatActivity {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-               // String selectedItem = parent.getItemAtPosition(position).toString();
                 if(parent.getSelectedItemPosition()==0) {
-                    Log.d("TAG", "0");
+                    sortProgress.setVisibility(View.VISIBLE);
                     loadPopularMoviesList();
                 }
 
                 else if (parent.getSelectedItemPosition()==1) {
-                    Log.d("TAG", "1");
+                    sortProgress.setVisibility(View.VISIBLE);
                     loadTopRatedMoviesList();
                 }
 
@@ -77,23 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-//        if(spinner.getSelectedItem().equals("Top Rated"))
-//            Log.d("TAG", String.valueOf(spinner.getSelectedItemPosition()));
-//
-//        switch (spinner.getSelectedItemPosition()){
-//            case 2:loadTopRatedMoviesList();
-//                Log.d("TAG", "1");
-//                break;
-//            default:loadTopRatedMoviesList();
-//                break;
-//        }
 
         return true;
     }
     private void loadPopularMoviesList() {
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
-        Call<PopularMoviesList> call = apiInterface.getPopularMovies(API_KEY);
+        Call<PopularMoviesList> call = apiInterface.getPopularMovies(getString(R.string.API_KEY));
         call.enqueue(new Callback<PopularMoviesList>() {
             @Override
             public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
@@ -101,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 List<Movie> movies = response.body().getMovies();
                 Log.d("TAG", movies.get(0).getOriginalLanguage());
                 adapter = new MoviesAdapter(movies, R.layout.movie_recycler_view_item, MainActivity.this);
+                sortProgress.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapter);
               //  adapter.notifyDataSetChanged();
 
@@ -118,13 +109,14 @@ public class MainActivity extends AppCompatActivity {
 
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
-        Call<PopularMoviesList> call = apiInterface.getTopRatedMovies(API_KEY);
+        Call<PopularMoviesList> call = apiInterface.getTopRatedMovies(getString(R.string.API_KEY));
         call.enqueue(new Callback<PopularMoviesList>() {
             @Override
             public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
 
                 List<Movie> movies = response.body().getMovies();
                 Log.d("TAG", movies.get(0).getOriginalLanguage());
+                sortProgress.setVisibility(View.GONE);
 
                 recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.movie_recycler_view_item, MainActivity.this));
              //   adapter.notifyDataSetChanged();

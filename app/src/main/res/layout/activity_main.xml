@@ -9,4 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/sortProgress"
+        android:layout_centerVertical="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </ProgressBar>
 </RelativeLayout>
