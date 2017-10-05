@@ -31,6 +31,7 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
         tvMovieBackground = (ImageView)findViewById(R.id.imgBackground);
         tvMovieTitle = (TextView)findViewById(R.id.tvOrigTitle);
         tvSynopsis = (TextView)findViewById(R.id.tvSynopsis);

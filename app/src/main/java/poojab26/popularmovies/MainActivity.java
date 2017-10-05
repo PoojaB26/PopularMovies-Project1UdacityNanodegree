@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PopularMoviesList> call, Throwable t) {
                 Log.d("Error", t.getMessage());
+                setContentView(R.layout.layout_no_network);
+
 
             }
         });
@@ -126,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PopularMoviesList> call, Throwable t) {
                 Log.d("Error", t.getMessage());
+                setContentView(R.layout.layout_no_network);
+
 
             }
         });
