@@ -1,6 +1,6 @@
 package poojab26.popularmovies;
 
-import poojab26.popularmovies.Model.PopularMoviesList;
+import poojab26.popularmovies.Model.MoviesList;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -19,9 +19,9 @@ public interface ApiInterface {
 
 
     @GET("movie/popular")
-    Call<PopularMoviesList> getPopularMovies(@Query("api_key") String apiKey);
+    Call<MoviesList> getPopularMovies(@Query("api_key") String apiKey);
 
     @GET("movie/top_rated")
-    Call<PopularMoviesList> getTopRatedMovies(@Query("api_key") String apiKey);
+    Call<MoviesList> getTopRatedMovies(@Query("api_key") String apiKey);
 
 }

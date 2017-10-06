@@ -14,7 +14,7 @@ import java.util.List;
 
 import poojab26.popularmovies.ApiInterface;
 import poojab26.popularmovies.Model.Movie;
-import poojab26.popularmovies.Model.PopularMoviesList;
+import poojab26.popularmovies.Model.MoviesList;
 import poojab26.popularmovies.R;
 import poojab26.popularmovies.Utilities.APIClient;
 import retrofit2.Call;
@@ -47,10 +47,10 @@ public class DetailsActivity extends AppCompatActivity {
     private void loadMoviesListJSON(final int pos) {
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
-        Call<PopularMoviesList> call = apiInterface.getPopularMovies(getString(R.string.API_KEY));
-        call.enqueue(new Callback<PopularMoviesList>() {
+        Call<MoviesList> call = apiInterface.getPopularMovies(getString(R.string.API_KEY));
+        call.enqueue(new Callback<MoviesList>() {
             @Override
-            public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
+            public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
 
                 List<Movie> movies = response.body().getMovies();
                 String path = movies.get(pos).getBackdropPath();
@@ -60,13 +60,13 @@ public class DetailsActivity extends AppCompatActivity {
                 tvSynopsis.setText(movies.get(pos).getOverview());
                 tvRating.setVisibility(View.VISIBLE);
                 tvRating.setText(String.valueOf(movies.get(pos).getVoteAverage()));
-                tvRelease.setText("Release Date : " +movies.get(pos).getReleaseDate());
+                tvRelease.setText(getString(R.string.release_date) +movies.get(pos).getReleaseDate());
 
 
             }
 
             @Override
-            public void onFailure(Call<PopularMoviesList> call, Throwable t) {
+            public void onFailure(Call<MoviesList> call, Throwable t) {
                 Log.d("Error", t.getMessage());
                 setContentView(R.layout.layout_no_network);
 

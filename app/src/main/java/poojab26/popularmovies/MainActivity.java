@@ -18,7 +18,7 @@ import java.util.List;
 
 import poojab26.popularmovies.Adapter.MoviesAdapter;
 import poojab26.popularmovies.Model.Movie;
-import poojab26.popularmovies.Model.PopularMoviesList;
+import poojab26.popularmovies.Model.MoviesList;
 import poojab26.popularmovies.Utilities.APIClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
     private void loadPopularMoviesList() {
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
-        Call<PopularMoviesList> call = apiInterface.getPopularMovies(getString(R.string.API_KEY));
-        call.enqueue(new Callback<PopularMoviesList>() {
+        Call<MoviesList> call = apiInterface.getPopularMovies(getString(R.string.API_KEY));
+        call.enqueue(new Callback<MoviesList>() {
             @Override
-            public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
+            public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
 
                 List<Movie> movies = response.body().getMovies();
                 Log.d("TAG", movies.get(0).getOriginalLanguage());
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<PopularMoviesList> call, Throwable t) {
+            public void onFailure(Call<MoviesList> call, Throwable t) {
                 Log.d("Error", t.getMessage());
                 setContentView(R.layout.layout_no_network);
 
@@ -117,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
 
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
-        Call<PopularMoviesList> call = apiInterface.getTopRatedMovies(getString(R.string.API_KEY));
-        call.enqueue(new Callback<PopularMoviesList>() {
+        Call<MoviesList> call = apiInterface.getTopRatedMovies(getString(R.string.API_KEY));
+        call.enqueue(new Callback<MoviesList>() {
             @Override
-            public void onResponse(Call<PopularMoviesList> call, Response<PopularMoviesList> response) {
+            public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
 
                 List<Movie> movies = response.body().getMovies();
                 Log.d("TAG", movies.get(0).getOriginalLanguage());
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<PopularMoviesList> call, Throwable t) {
+            public void onFailure(Call<MoviesList> call, Throwable t) {
                 Log.d("Error", t.getMessage());
                 setContentView(R.layout.layout_no_network);
 
