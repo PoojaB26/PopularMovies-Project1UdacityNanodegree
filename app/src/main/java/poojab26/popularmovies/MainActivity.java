@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar sortProgress;
     int SpinnerPosition;
+    RecyclerView.LayoutManager layoutManager;
 
 
     @Override
@@ -42,8 +43,9 @@ public class MainActivity extends AppCompatActivity {
 
          recyclerView = (RecyclerView) findViewById(R.id.rvMovies);
         int numberOfColumns = 2;
-        recyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        //loadPopularMoviesList();
+        layoutManager = new GridLayoutManager(this, numberOfColumns);
+        recyclerView.setLayoutManager(layoutManager);
+
     }
 
     @Override
@@ -64,9 +66,7 @@ public class MainActivity extends AppCompatActivity {
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-                Log.d("TAG", "now it is " + SpinnerPosition);
                 SpinnerPosition = parent.getSelectedItemPosition();
-                Log.d("TAG", "now it is 2 " + SpinnerPosition);
 
                 if(SpinnerPosition==0) {
                     sortProgress.setVisibility(View.VISIBLE);
@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter = new MoviesAdapter(movies, R.layout.movie_recycler_view_item, MainActivity.this);
                 sortProgress.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapter);
-              //  adapter.notifyDataSetChanged();
 
             }
 
@@ -128,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 sortProgress.setVisibility(View.GONE);
 
                 recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.movie_recycler_view_item, MainActivity.this));
-             //   adapter.notifyDataSetChanged();
 
             }
 
@@ -140,26 +138,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
-        savedInstanceState.putInt("pos", SpinnerPosition);
-        Log.d("TAG", SpinnerPosition + " is this 1");
-
-    }
-
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Restore UI state from the savedInstanceState.
-        // This bundle has also been passed to onCreate.
-        SpinnerPosition = savedInstanceState.getInt("pos");
-        Log.d("TAG", SpinnerPosition + "is this");
-
     }
 
 }
