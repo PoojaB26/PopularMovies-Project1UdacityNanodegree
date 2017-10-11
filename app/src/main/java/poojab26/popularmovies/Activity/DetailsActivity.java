@@ -46,8 +46,17 @@ public class DetailsActivity extends AppCompatActivity {
     private void loadMovieDetails(){
         Intent in = this.getIntent();
         Movie movie = in.getParcelableExtra("Movie");
-        Log.d("TITLE", movie.getOriginalTitle());
-        tvMovieTitle.setText(Title);
+        Double Vote = movie.getVoteAverage();
+        System.out.print(Vote);
+        Log.d("TITLE", String.valueOf(movie.getVoteAverage()));
+        String path = movie.getBackdropPath();
+        Picasso.with(getApplicationContext()).load(BASE_PATH+path).into(tvMovieBackground);
+
+        tvMovieTitle.setText(movie.getOriginalTitle());
+        tvSynopsis.setText(movie.getOverview());
+        tvRating.setVisibility(View.VISIBLE);
+        tvRating.setText(String.valueOf(movie.getVoteAverage()));
+        tvRelease.setText(getString(R.string.release_date) +movie.getReleaseDate());
 
     }
 

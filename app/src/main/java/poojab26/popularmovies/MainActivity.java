@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
 
                 recyclerView.setAdapter(new MoviesAdapter(movies, new MoviesAdapter.OnItemClickListener() {
                     @Override public void onItemClick(int position) {
-                        Log.d("TAG", "test");
                     }
                 }));
             }
