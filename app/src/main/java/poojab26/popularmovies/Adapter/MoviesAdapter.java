@@ -1,9 +1,7 @@
 package poojab26.popularmovies.Adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,48 +16,46 @@ import poojab26.popularmovies.Activity.DetailsActivity;
 import poojab26.popularmovies.Model.Movie;
 import poojab26.popularmovies.R;
 
-import static android.content.ContentValues.TAG;
-
 /**
  * Created by pblead26 on 04-Oct-17.
  */
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
-    private List<Movie> movies;
-    private int rowLayout;
-    private Context context;
-    private ItemClickListener mClickListener;
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
 
-    private LayoutInflater mInflater;
+    private final List<Movie> movies;
+    private final OnItemClickListener listener;
 
     String BASE_PATH = "http://image.tmdb.org/t/p/w185/";
 
 
 
     // data is passed into the constructor
-   public MoviesAdapter(List<Movie> movies, int rowLayout, Context context) {
-        this.mInflater = LayoutInflater.from(context);
-        this.movies = movies;
-        this.rowLayout = rowLayout;
-        this.context = context;
+   public MoviesAdapter(List<Movie> movies, OnItemClickListener listener) {
+       this.movies = movies;
+       this.listener = listener;
     }
 
     // inflates the cell layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = mInflater.inflate(R.layout.movie_recycler_view_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_recycler_view_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String title = movies.get(position).getTitle();
+        holder.bind(position, listener);
+      /*  String title = movies.get(position).getTitle();
         holder.tvMovieName.setText(title);
         String ImagePath = movies.get(position).getPosterPath();
         Picasso.with(context).load(BASE_PATH+ImagePath).into(holder.imgPoster);
-    }
+   */ }
+
 
 
     // total number of cells
@@ -69,22 +65,43 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvMovieName;
         ImageView imgPoster;
-        private final Context context;
+       // private final Context context;
 
         ViewHolder(View itemView) {
             super(itemView);
-            context = itemView.getContext();
+        //    context = itemView.getContext();
 
             tvMovieName = (TextView) itemView.findViewById(R.id.tv_moviename);
             imgPoster = (ImageView) itemView.findViewById(R.id.imgPoster);
 
-            itemView.setOnClickListener(this);
+          //  itemView.setOnClickListener(this);
         }
 
-        @Override
+        public void bind(final int position, final OnItemClickListener listener) {
+            String title = movies.get(position).getTitle();
+            tvMovieName.setText(title);
+            String ImagePath = movies.get(position).getPosterPath();
+            Picasso.with(itemView.getContext()).load(BASE_PATH+ImagePath).into(imgPoster);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(position);
+                    Movie movie = movies.get(position);
+                    Intent i = new Intent(itemView.getContext(), DetailsActivity.class);
+                    i.putExtra("Movie", movie); // using the (String name, Parcelable value) overload!
+                    itemView.getContext().startActivity(i);
+
+                }
+            });
+        }
+
+
+
+      /*  @Override
         public void onClick(View view) {
             if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
             Log.d(TAG, String.valueOf(getAdapterPosition()));
@@ -92,7 +109,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
             intent =  new Intent(context, DetailsActivity.class);
             intent.putExtra("pos", getAdapterPosition());
             context.startActivity(intent);
-        }
+        }*/
     }
 /*
     // convenience method for getting data at click position
@@ -106,9 +123,6 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     }*/
 
 
-    public interface ItemClickListener{
-        void onItemClick(View view, int position);
-    }
 
 
 }

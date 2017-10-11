@@ -97,10 +97,13 @@ public class MainActivity extends AppCompatActivity {
 
                 List<Movie> movies = response.body().getMovies();
                 Log.d("TAG", movies.get(0).getOriginalLanguage());
-                adapter = new MoviesAdapter(movies, R.layout.movie_recycler_view_item, MainActivity.this);
+               // adapter = new MoviesAdapter(movies, R.layout.movie_recycler_view_item, MainActivity.this);
                 sortProgress.setVisibility(View.GONE);
                 recyclerView.setAdapter(adapter);
-
+                recyclerView.setAdapter(new MoviesAdapter(movies, new MoviesAdapter.OnItemClickListener() {
+                    @Override public void onItemClick(int position) {
+                    }
+                }));
             }
 
             @Override
@@ -126,8 +129,11 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("TAG", movies.get(0).getOriginalLanguage());
                 sortProgress.setVisibility(View.GONE);
 
-                recyclerView.setAdapter(new MoviesAdapter(movies, R.layout.movie_recycler_view_item, MainActivity.this));
-
+                recyclerView.setAdapter(new MoviesAdapter(movies, new MoviesAdapter.OnItemClickListener() {
+                    @Override public void onItemClick(int position) {
+                        Log.d("TAG", "test");
+                    }
+                }));
             }
 
             @Override

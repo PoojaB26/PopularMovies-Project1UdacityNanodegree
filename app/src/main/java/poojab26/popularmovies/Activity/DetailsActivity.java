@@ -26,6 +26,7 @@ public class DetailsActivity extends AppCompatActivity {
     ImageView tvMovieBackground;
     ApiInterface apiInterface;
     String BASE_PATH = "http://image.tmdb.org/t/p/w342/";
+    String Title, Synopsis, Rating, Release, URL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +39,17 @@ public class DetailsActivity extends AppCompatActivity {
         tvRating = (TextView)findViewById(R.id.tvRating);
         tvRelease = (TextView)findViewById(R.id.tvRelease);
 
-        Intent movieIntent = getIntent();
-        int pos = movieIntent.getIntExtra("pos", 0);
-        loadMoviesListJSON(pos);
+      //  loadMoviesListJSON();
+        loadMovieDetails();
     }
 
+    private void loadMovieDetails(){
+        Intent in = this.getIntent();
+        Movie movie = in.getParcelableExtra("Movie");
+        Log.d("TITLE", movie.getOriginalTitle());
+        tvMovieTitle.setText(Title);
+
+    }
 
     private void loadMoviesListJSON(final int pos) {
         apiInterface = APIClient.getClient().create(ApiInterface.class);
