@@ -10,12 +10,6 @@ import retrofit2.http.Query;
  */
 
 public interface ApiInterface {
-/*
-
-    @Headers("user_key: c031832bac8def9a5efadcb27718dfeb")
-    @GET("geocode")
-    Call<RestaurantList> getRestaurantList(@Query("lat")String lat, @Query("lon")String lon);
-*/
 
 
     @GET("movie/popular")

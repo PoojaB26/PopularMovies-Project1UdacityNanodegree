@@ -50,11 +50,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bind(position, listener);
-      /*  String title = movies.get(position).getTitle();
-        holder.tvMovieName.setText(title);
-        String ImagePath = movies.get(position).getPosterPath();
-        Picasso.with(context).load(BASE_PATH+ImagePath).into(holder.imgPoster);
-   */ }
+      }
 
 
 
@@ -68,61 +64,34 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvMovieName;
         ImageView imgPoster;
-       // private final Context context;
 
         ViewHolder(View itemView) {
             super(itemView);
-        //    context = itemView.getContext();
 
             tvMovieName = (TextView) itemView.findViewById(R.id.tv_moviename);
             imgPoster = (ImageView) itemView.findViewById(R.id.imgPoster);
 
-          //  itemView.setOnClickListener(this);
         }
 
         public void bind(final int position, final OnItemClickListener listener) {
             String title = movies.get(position).getTitle();
             tvMovieName.setText(title);
             String ImagePath = movies.get(position).getPosterPath();
-            Picasso.with(itemView.getContext()).load(BASE_PATH+ImagePath).into(imgPoster);
+            Picasso.with(itemView.getContext()).load(BASE_PATH + ImagePath).into(imgPoster);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
                     listener.onItemClick(position);
                     Movie movie = movies.get(position);
                     Intent i = new Intent(itemView.getContext(), DetailsActivity.class);
-                    i.putExtra("Movie", movie); // using the (String name, Parcelable value) overload!
+                    i.putExtra("Movie", movie);
                     itemView.getContext().startActivity(i);
 
                 }
             });
         }
-
-
-
-      /*  @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
-            Log.d(TAG, String.valueOf(getAdapterPosition()));
-            final Intent intent;
-            intent =  new Intent(context, DetailsActivity.class);
-            intent.putExtra("pos", getAdapterPosition());
-            context.startActivity(intent);
-        }*/
     }
-/*
-    // convenience method for getting data at click position
-   public String getItem(int id) {
-        return mData[id];
-    }
-
-    // allows clicks events to be caught
-    public void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }*/
-
-
-
 
 }
