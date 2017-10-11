@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadPopularMoviesList() {
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
-        Call<MoviesList> call = apiInterface.getPopularMovies(getString(R.string.API_KEY));
+        Call<MoviesList> call = apiInterface.getPopularMovies(BuildConfig.API_KEY);
         call.enqueue(new Callback<MoviesList>() {
             @Override
             public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
         apiInterface = APIClient.getClient().create(ApiInterface.class);
 
-        Call<MoviesList> call = apiInterface.getTopRatedMovies(getString(R.string.API_KEY));
+        Call<MoviesList> call = apiInterface.getTopRatedMovies(BuildConfig.API_KEY);
         call.enqueue(new Callback<MoviesList>() {
             @Override
             public void onResponse(Call<MoviesList> call, Response<MoviesList> response) {
